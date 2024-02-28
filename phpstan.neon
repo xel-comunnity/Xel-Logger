@@ -1,0 +1,8 @@
+# phpstan.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+    treatPhpDocTypesAsCertain: false
+    checkGenericClassInNonGenericObjectType: false
