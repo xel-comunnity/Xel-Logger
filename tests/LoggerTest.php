@@ -31,8 +31,8 @@ it('can call function of logger channel',function (){
         ],
     ];
 
-    ApplicationLogger::init($setup, $firePHPHandler);
-    $logger = Loggers::channel('my_logger');
+    (new Xel\Logger\ApplicationLogger)->init($setup, $firePHPHandler);
+    $logger = (new Xel\Logger\Loggers)->channel('my_logger');
 
     $debugMessage = 'Debug message';
     $infoMessage = 'Info message';
@@ -42,14 +42,14 @@ it('can call function of logger channel',function (){
     $alertMessage = 'Alert message';
     $emergencyMessage = 'Emergency message';
 
-    $logger::debug($debugMessage);
-    $logger::info($infoMessage);
-    $logger::notice($infoMessage);
-    $logger::warning($warningMessage);
-    $logger::error($errorMessage);
-    $logger::critical($criticalMessage);
-    $logger::alert($alertMessage);
-    $logger::emergency($emergencyMessage);
+    $logger->logger->debug($debugMessage);
+    $logger->logger->info($infoMessage);
+    $logger->logger->notice($infoMessage);
+    $logger->logger->warning($warningMessage);
+    $logger->logger->error($errorMessage);
+    $logger->logger->critical($criticalMessage);
+    $logger->logger->alert($alertMessage);
+    $logger->logger->emergency($emergencyMessage);
     expect(true)->toBeTrue(); // Placeholder assertion
 
 });

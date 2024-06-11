@@ -1,7 +1,5 @@
 <?php
-
 namespace Xel\Logger;
-
 enum LoggerSchedule
 {
     case Daily;

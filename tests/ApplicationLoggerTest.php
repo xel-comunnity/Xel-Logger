@@ -30,11 +30,11 @@ it('can initialize and launch logger in stack mode', function () {
         ],
     ];
 
-    $logger = ApplicationLogger::init($setup, $firePHPHandler);
+    $logger = (new Xel\Logger\ApplicationLogger)->init($setup, $firePHPHandler);
 
     expect($logger)->toBeInstanceOf(ApplicationLogger::class);
-    expect(ApplicationLogger::$logger)->toBeInstanceOf(Logger::class);
-    expect(ApplicationLogger::$logger->getHandlers())->toHaveCount(count($setup['collections']));
+    expect($logger->logger)->toBeInstanceOf(Logger::class);
+    expect($logger->logger->getHandlers())->toHaveCount(count($setup['collections']));
 });
 
 it('can initialize and launch logger in single mode', function () {
@@ -61,10 +61,10 @@ it('can initialize and launch logger in single mode', function () {
         ],
     ];
 
-    $logger = ApplicationLogger::init($setup, $firePHPHandler);
+    $logger = (new Xel\Logger\ApplicationLogger)->init($setup, $firePHPHandler);
 
     expect($logger)->toBeInstanceOf(ApplicationLogger::class);
-    expect(ApplicationLogger::$logger)->toBeInstanceOf(Logger::class);
-    expect(ApplicationLogger::$logger->getHandlers())->toHaveCount(count($setup['collections']));
+    expect($logger->logger)->toBeInstanceOf(Logger::class);
+    expect($logger->logger->getHandlers())->toHaveCount(count($setup['collections']));
 });
 

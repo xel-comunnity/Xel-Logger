@@ -6,35 +6,35 @@ use Monolog\Handler\FirePHPHandler;
 
 class ApplicationLogger
 {
-    protected static FirePHPHandler $firePHPHandler;
+    protected FirePHPHandler $firePHPHandler;
     /**
      * @var array<int|string, mixed>
      */
-    protected static array $setup;
-    public static Logger $logger;
+    protected array $setup;
+    public Logger $logger;
 
     /**
      * @param array<string|int, mixed> $setup
      * @param FirePHPHandler $firePHPHandler
      * @return ApplicationLogger
      */
-    public static function init(array $setup, FirePHPHandler $firePHPHandler): ApplicationLogger
+    public function init(array $setup, FirePHPHandler $firePHPHandler): ApplicationLogger
     {
         // ? inject to property
-        self::$firePHPHandler = $firePHPHandler;
+        $this->firePHPHandler = $firePHPHandler;
         // ? inject setup
-        self::$setup = $setup;
+        $this->setup = $setup;
         // ? launch process
-        self::launch();
-        return new self();
+        $this->launch();
+        return $this;
     }
 
-    protected static function launch(): void
+    public function launch(): void
     {
-        if (self::$setup["mode"] !== "single") {
-            foreach (self::$setup["collections"] as $setup){
+        if ($this->setup["mode"] !== "single") {
+            foreach ($this->setup["collections"] as $setup){
                 // ? logger instance
-                self::$logger = $setup['channel'];
+                $this->logger = $setup['channel'];
                 // ? Rotating Handler
                 $loggingGeneration = new RotatingFileHandler
                 (
@@ -47,27 +47,27 @@ class ApplicationLogger
                     $setup["logging_generation"]["format"],
                 );
 
-                self::$logger->pushHandler($loggingGeneration);
-                self::$logger->pushHandler(self::$firePHPHandler);
+                $this->logger->pushHandler($loggingGeneration);
+                $this->logger->pushHandler($this->firePHPHandler);
             }
         } else {
-            foreach (self::$setup["collections"] as $setup){
+            foreach ($this->setup["collections"] as $setup){
                 // ? logger instance
-                self::$logger = $setup['channel'];
+                $this->logger = $setup['channel'];
                 // ? Rotating Handler
                 $loggingGeneration = new RotatingFileHandler
                 (
-                    self::$setup['path'],
-                    self::$setup['single_logging_generation']['max'],
+                    $this->setup['path'],
+                    $this->setup['single_logging_generation']['max'],
                     $setup["level"],
                     true,
                     0644,
                     false,
-                    self::$setup['single_logging_generation']['format'],
+                    $this->setup['single_logging_generation']['format'],
                 );
 
-                self::$logger->pushHandler($loggingGeneration);
-                self::$logger->pushHandler(self::$firePHPHandler);
+                $this->logger->pushHandler($loggingGeneration);
+                $this->logger->pushHandler($this->firePHPHandler);
             }
         }
     }
