@@ -65,6 +65,16 @@ class Loggers extends ApplicationLogger implements LoggerApp
     {
         $this->channel->emergency($debug, $context);
     }
+
+    public function __destruct()
+    {
+        // Close any resources if necessary, such as file handlers
+        foreach ($this->channel->getHandlers() as $handler) {
+            if (method_exists($handler, 'close')) {
+                $handler->close();
+            }
+        }
+    }
 }
 
 
