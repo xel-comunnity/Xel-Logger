@@ -6,28 +6,12 @@ use Monolog\Handler\FirePHPHandler;
 
 class ApplicationLogger
 {
-    protected FirePHPHandler $firePHPHandler;
-    /**
-     * @var array<int|string, mixed>
-     */
-    protected array $setup;
+
     public Logger $logger;
 
-    /**
-     * @param array<string|int, mixed> $setup
-     * @param FirePHPHandler $firePHPHandler
-     * @return ApplicationLogger
-     */
-    public function init(array $setup, FirePHPHandler $firePHPHandler): ApplicationLogger
-    {
-        // ? inject to property
-        $this->firePHPHandler = $firePHPHandler;
-        // ? inject setup
-        $this->setup = $setup;
-        // ? launch process
-        $this->launch();
-        return $this;
-    }
+    public function __construct(protected array $setup, protected FirePHPHandler $firePHPHandler)
+    {}
+
 
     public function launch(): void
     {

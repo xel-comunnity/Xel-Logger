@@ -1,19 +1,27 @@
 <?php
 
 namespace Xel\Logger;
+use Monolog\Handler\FirePHPHandler;
 use Monolog\Logger;
 
 class Loggers extends ApplicationLogger implements LoggerApp
 {
     private Logger $channel;
 
+    public function __construct(array $setup, FirePHPHandler $firePHPHandler)
+    {
+        parent::__construct($setup, $firePHPHandler);
+        $this->channel = $this->setup["collections"]['my_logger']['channel'];
+
+    }
+
     /**
      * @param string $channel
      * @return Loggers
      */
+
     public function channel(string $channel): Loggers
     {
-
         $this->channel = $this->setup["collections"][$channel]['channel'];
         return $this;
     }
